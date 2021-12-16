@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 public class EscapeRoom {
 
     static JLabel questionLabel, narrationLabel;
-    static JRadioButton Option1, Option2, Option3, Option4;
-    static JButton nextButton1, backButton, nextButton2, nextButton3;
+    static JRadioButton Option1, Option2, Option3, Option4, Option5;
+    static JButton nextButton1, backButton, nextButton2, nextButtonLose, nextButtonWin;
 
     public static void main(String[] args) {
-        EscapeRoom();
+        EscapeRoomSetup();
 
     }
-    public static void EscapeRoom(){
+    public static void EscapeRoomSetup(){
         JFrame window = new JFrame("Escape Room");
         JPanel panel = new JPanel();
         ButtonGroup radios = new ButtonGroup();
@@ -20,13 +20,14 @@ public class EscapeRoom {
 
         nextButton1 = new JButton("Begin");
         nextButton2 = new JButton("Next");
-        nextButton3 = new JButton("Next");
+        nextButtonLose = new JButton("Next");
         backButton = new JButton("Back");
 
         Option1 = new JRadioButton("Search for a key");
         Option2 = new JRadioButton("Attempt to open the door now");
         Option3 = new JRadioButton("open the chest");
-        Option4 = new JRadioButton("new option2");
+        Option4 = new JRadioButton("grab the hammer and approach the window");
+        Option5 = new JRadioButton("grab the paper and approach the door");
 
         questionLabel = new JLabel("Click begin to start the first task.");
         narrationLabel = new JLabel("You've found a key! You walk over and open the door, on to the next room!");
@@ -37,12 +38,6 @@ public class EscapeRoom {
 
         nextButton1.addActionListener(new Next1ButtonListener());
         nextButton2.addActionListener(new Next2ButtonListener());
-        nextButton3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-
-            }
-        });
         backButton.addActionListener(new BackButtonListener());
 
         radios.add(Option1);
@@ -50,13 +45,15 @@ public class EscapeRoom {
 
         panel.add(nextButton1);
         panel.add(nextButton2);
-        panel.add(nextButton3);
+        panel.add(nextButtonLose);
+        panel.add(nextButtonWin);
         panel.add(questionLabel);
         panel.add(narrationLabel);
         panel.add(Option1);
         panel.add(Option2);
         panel.add(Option3);
         panel.add(Option4);
+        panel.add(Option5);
         panel.add(backButton);
         panel.setLayout(null);
 
@@ -69,85 +66,86 @@ public class EscapeRoom {
         Option2.setBounds(100,100,500,30);
         Option3.setBounds(100,100,500,30);
         Option4.setBounds(100,100,500,30);
+        Option5.setBounds(100,100,500,30);
+
         Option1.setLocation(150,100);
         Option2.setLocation(150,150);
         Option3.setLocation(150,100);
         Option4.setLocation(150,150);
+        Option5.setLocation(150,100);
+
         nextButton1.setLocation(250,400);
         nextButton1.setSize(100,50);
         backButton.setLocation(250,400);
         backButton.setSize(100,50);
         nextButton2.setLocation(250,400);
         nextButton2.setSize(100,50);
-        nextButton3.setLocation(250,400);
-        nextButton3.setSize(100,50);
+        nextButtonLose.setLocation(250,400);
+        nextButtonLose.setSize(100,50);
+        nextButtonWin.setLocation(250,400);
+        nextButtonWin.setSize(100,50);
 
         narrationLabel.setVisible(false);
         Option1.setVisible(false);
         Option2.setVisible(false);
         Option3.setVisible(false);
         Option4.setVisible(false);
+        Option5.setVisible(false);
         backButton.setVisible(false);
         nextButton2.setVisible(false);
-        nextButton3.setVisible(false);
+        nextButtonLose.setVisible(false);
+        nextButtonWin.setVisible(false);
 
-        Option1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (Option1.isSelected()){
-                    Option1.setVisible(false);
-                    Option2.setVisible(false);
-                    questionLabel.setText("You turn around to find a desk and begin searching");
-                    narrationLabel.setVisible(true);
-                    nextButton1.setVisible(false);
-                    backButton.setVisible(false);
-                    nextButton2.setVisible(true);
-                }
+        Option1.addActionListener(actionEvent -> {
+            if (Option1.isSelected()){
+                Option1.setVisible(false);
+                Option2.setVisible(false);
+                questionLabel.setText("You turn around to find a desk and begin searching");
+                narrationLabel.setVisible(true);
+                nextButton1.setVisible(false);
+                backButton.setVisible(false);
+                nextButton2.setVisible(true);
             }
         });
-        Option2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (Option2.isSelected()) {
-                    Option1.setVisible(false);
-                    Option2.setVisible(false);
-                    questionLabel.setText("You'll need to find a key");
-                    nextButton1.setVisible(false);
-                    backButton.setVisible(true);
+        Option2.addActionListener(actionEvent -> {
+            if (Option2.isSelected()) {
+                Option1.setVisible(false);
+                Option2.setVisible(false);
+                questionLabel.setText("You'll need to find a key");
+                nextButton1.setVisible(false);
+                backButton.setVisible(true);
 
-                }
             }
         });
-        Option3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (Option3.isSelected()) {
-                    questionLabel.setText("You open the chest and find a hammer and a piece of paper with a combination on it,");
-                    narrationLabel.setText("what will you do?");
-                    Option4.setVisible(true);
-                    //Option5.setVisible(true);
+        Option3.addActionListener(actionEvent -> {
+            if (Option3.isSelected()) {
+                Option3.setVisible(false);
+                questionLabel.setText("You open the chest and find a hammer and a piece of paper with a combination on it,");
+                narrationLabel.setText("what will you do?");
+                Option4.setVisible(true);
+                Option5.setVisible(true);
 
-                }
+
             }
         });
-        Option4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (Option4.isSelected()) {
-
-
-                }
+        Option4.addActionListener(actionEvent -> {
+            if (Option4.isSelected()) {
+                questionLabel.setText("You use the hammer to smash the window and jump down to safety, but seconds later");
+                narrationLabel.setText("you're ELIMINATED for escaping improperly.");
+                Option4.setVisible(false);
+                Option5.setVisible(false);
+                nextButtonLose.setVisible(true);
             }
         });
-        /*Option5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (Option5.isSelected()) {
-
-
-                }
+        Option5.addActionListener(actionEvent -> {
+            if (Option5.isSelected()) {
+                questionLabel.setText("You use the combination on the paper to open the door and you escape to safety");
+                narrationLabel.setText("where you find a 20 dollar bill for your hard work.");
+                Option4.setVisible(false);
+                Option5.setVisible(false);
+                nextButtonWin.setVisible(true);
             }
-        });*/
+        });
 
         window.add(panel);
 
@@ -182,7 +180,6 @@ public class EscapeRoom {
             Option3.setVisible(true);
             Option4.setVisible(false);
             nextButton2.setVisible(false);
-            nextButton3.setVisible(true);
         }
     }
 }
